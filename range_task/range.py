@@ -25,37 +25,42 @@ class Range:
     def is_inside(self, number):
         return self.__start <= number <= self.__end
 
-    def get_range_intersection(self, other_range):
+    def get_intersections(self, other_range):
         if self.__end <= other_range.start or other_range.end <= self.__start:
             return None
-        else:
-            start = max(self.__start, other_range.start)
-            end = min(self.__end, other_range.end)
-            return Range(start, end)
 
-    def get_range_union(self, other_range):
+        return Range(max(self.__start, other_range.start), min(self.__end, other_range.end))
+
+    def get_unions(self, other_range):
         if self.__end < other_range.start or other_range.end < self.__start:
-            return [self, other_range]
-        else:
-            start = min(self.__start, other_range.start)
-            end = max(self.__end, other_range.end)
-            return Range(start, end)
+            return [Range(self.__start, self.__end), Range(other_range.start, other_range.end)]
 
-    def get_range_difference(self, other_range):
-        result = []
+        return [Range(min(self.__start, other_range.start), max(self.__end, other_range.end))]
 
-        if self.__start < other_range.start:
-            result.append(Range(self.__start, min(self.__end, other_range.start)))
+    """Почему решение с созданием списка не подходящее? Оно выглядит более лаконично"""
+    # def get_differences(self, other_range):
+    #     result = []
+    #
+    #     if self.__start < other_range.start:
+    #         result.append(Range(self.__start, min(self.__end, other_range.start)))
+    #
+    #     if self.__end > other_range.end:
+    #         result.append(Range(max(self.__start, other_range.end), self.__end))
+    #
+    #     return result
 
-        if self.__end > other_range.end:
-            result.append(Range(max(self.__start, other_range.end), self.__end))
+    def get_differences(self, other_range):
+        if self.__start < other_range.start and self.__end < other_range.end:
+            return [Range(self.__start, min(self.__end, other_range.start))]
 
-        if len(result) == 0:
-            return None
-        elif len(result) == 1:
-            return result[0]
-        else:
-            return result
+        if self.__end > other_range.end and self.__start > other_range.start:
+            return [Range(max(self.__start, other_range.end), self.__end)]
+
+        if self.__start < other_range.start and self.__end > other_range.end:
+            return [Range(self.__start, min(self.__end, other_range.start)),
+                    Range(max(self.__start, other_range.end), self.__end)]
+
+        return []
 
     def __repr__(self):
         return f"({ self.__start }; {self.__end})"

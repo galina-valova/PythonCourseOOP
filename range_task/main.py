@@ -18,6 +18,6 @@ range_1.end = 14.3
 
 print(f"Is {number} in range from {range_1.start} to {range_1.end} ?",
       range_1.is_inside(number))
-print(f"Intersection of {range_1} and {range_2} is", range_1.get_intersections(range_2))
-print(f"Union of {range_1} and {range_2} is", range_1.get_unions(range_2))
-print(f"Difference of {range_1} and {range_2} is", range_1.get_differences(range_2))
+print(f"Intersection of {range_1} and {range_2} is", range_1.get_intersection(range_2))
+print(f"Union of {range_1} and {range_2} is", range_1.get_union(range_2))
+print(f"Difference of {range_1} and {range_2} is", range_1.get_difference(range_2))

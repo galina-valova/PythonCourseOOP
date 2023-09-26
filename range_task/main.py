@@ -2,8 +2,10 @@ from range_task.range import Range
 
 start_1 = float(input("Enter start of the first range: "))
 end_1 = float(input("Enter end of the first range: "))
+
 start_2 = float(input("Enter start of the second range: "))
 end_2 = float(input("Enter end of the second range: "))
+
 number = float(input("Enter arbitrary number: "))
 
 range_1 = Range(start_1, end_1)

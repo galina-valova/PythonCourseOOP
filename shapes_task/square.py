@@ -4,7 +4,7 @@ from shapes_task.shape import Shape
 class Square(Shape):
     def __init__(self, side_length):
         if not isinstance(side_length, (int, float)):
-            raise TypeError(f"Side length must be number, not {type(side_length).__name__}")
+            raise TypeError(f"Square side length must be a number, not {type(side_length).__name__}")
 
         self.__side_length = side_length
 
@@ -24,7 +24,7 @@ class Square(Shape):
         return f"Square with side length {self.__side_length}"
 
     def __hash__(self):
-        return self.__side_length
+        return hash(self.__side_length)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):

@@ -4,6 +4,9 @@ from math import pi
 
 class Circle(Shape):
     def __init__(self, radius):
+        if not isinstance(radius, (int, float)):
+            raise TypeError(f"Circle radius must be a number, not {type(radius).__name__}")
+
         self.__radius = radius
 
     def get_width(self):
@@ -22,7 +25,7 @@ class Circle(Shape):
         return f"Circle with radius {self.__radius}"
 
     def __hash__(self):
-        return self.__radius
+        return hash(self.__radius)
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):

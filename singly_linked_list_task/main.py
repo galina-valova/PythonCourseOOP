@@ -11,8 +11,8 @@ new_list.insert(5, 325)
 
 print(f"New list: {new_list} with size = {new_list.size}")
 
-copy_list = new_list.copy()
-if copy_list.delete_item_by_value(122):
-    copy_list[4] = 34
+list_copy = new_list.copy()
+if list_copy.delete_item_by_value(122):
+    list_copy[4] = 34
 
-print(f"Copy list: {copy_list} with size = {copy_list.size}")
+print(f"Copy list: {list_copy} with size = {list_copy.size}")

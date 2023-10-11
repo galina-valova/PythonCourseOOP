@@ -12,8 +12,8 @@ def get_shape_with_max_area(shapes):
 
 
 def get_shape_with_second_perimeter(shapes):
-    if len(shapes) == 0:
-        raise ValueError("List of shapes is empty")
+    if len(shapes) < 2:
+        raise ValueError("List of shapes must must contain more than one shapes")
 
     return sorted(shapes, key=lambda x: x.get_perimeter(), reverse=True)[1]
 

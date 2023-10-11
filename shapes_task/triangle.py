@@ -4,8 +4,10 @@ from math import sqrt
 
 class Triangle(Shape):
     def __init__(self, x_1, y_1, x_2, y_2, x_3, y_3):
-        if not all(isinstance(i, (int, float)) for i in [x_1, y_1, x_2, y_2, x_3, y_3]):
-            raise TypeError(f"Point must be number, not {[type(i).__name__ for i in [x_1, y_1, x_2, y_2, x_3, y_3]]}")
+        coordinates_list = [x_1, y_1, x_2, y_2, x_3, y_3]
+
+        if not all(isinstance(i, (int, float)) for i in coordinates_list):
+            raise TypeError(f"Points must be numbers, not {[type(i).__name__ for i in coordinates_list]}")
 
         self.__x_1 = x_1
         self.__y_1 = y_1
@@ -21,8 +23,8 @@ class Triangle(Shape):
         return max(self.__y_1, self.__y_2, self.__y_3) - min(self.__y_1, self.__y_2, self.__y_3)
 
     @staticmethod
-    def get_length_side(x_1_coordinate, x_2_coordinate, y_1_coordinate, y_2_coordinate):
-        return sqrt((x_2_coordinate - x_1_coordinate) ** 2 + (y_2_coordinate - y_1_coordinate) ** 2)
+    def get_length_side(x_1, x_2, y_1, y_2):
+        return sqrt((x_2 - x_1) ** 2 + (y_2 - y_1) ** 2)
 
     def get_area(self):
         return abs((self.__x_1 - self.__x_3) * (self.__y_2 - self.__y_3) -

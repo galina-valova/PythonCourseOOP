@@ -6,8 +6,9 @@ class Triangle(Shape):
     def __init__(self, x_1, y_1, x_2, y_2, x_3, y_3):
         coordinates_list = [x_1, y_1, x_2, y_2, x_3, y_3]
 
-        if not all(isinstance(i, (int, float)) for i in coordinates_list):
-            raise TypeError(f"Points must be numbers, not {[type(i).__name__ for i in coordinates_list]}")
+        if not all(isinstance(coordinate, (int, float)) for coordinate in coordinates_list):
+            raise TypeError(f"Coordinates must be numbers, not"
+                            f"{[type(coordinate).__name__ for coordinate in coordinates_list]}")
 
         self.__x_1 = x_1
         self.__y_1 = y_1
@@ -23,7 +24,7 @@ class Triangle(Shape):
         return max(self.__y_1, self.__y_2, self.__y_3) - min(self.__y_1, self.__y_2, self.__y_3)
 
     @staticmethod
-    def get_length_side(x_1, x_2, y_1, y_2):
+    def __get_length_side(x_1, y_1, x_2, y_2):
         return sqrt((x_2 - x_1) ** 2 + (y_2 - y_1) ** 2)
 
     def get_area(self):
@@ -31,9 +32,9 @@ class Triangle(Shape):
                    (self.__y_1 - self.__y_3) * (self.__x_2 - self.__x_3)) / 2
 
     def get_perimeter(self):
-        side_1_length = self.get_length_side(self.__x_1, self.__x_2, self.__y_1, self.__y_2)
-        side_2_length = self.get_length_side(self.__x_2, self.__x_3, self.__y_2, self.__y_3)
-        side_3_length = self.get_length_side(self.__x_1, self.__x_3, self.__y_1, self.__y_3)
+        side_1_length = self.__get_length_side(self.__x_1, self.__x_2, self.__y_1, self.__y_2)
+        side_2_length = self.__get_length_side(self.__x_2, self.__x_3, self.__y_2, self.__y_3)
+        side_3_length = self.__get_length_side(self.__x_1, self.__x_3, self.__y_1, self.__y_3)
         return side_1_length + side_2_length + side_3_length
 
     def __repr__(self):

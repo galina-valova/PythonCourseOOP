@@ -5,8 +5,9 @@ class Rectangle(Shape):
     def __init__(self, width, height):
         sides_list = [width, height]
 
-        if not all(isinstance(i, (int, float)) for i in sides_list):
-            raise TypeError(f"Rectangle width and height must be numbers, not {[type(i).__name__ for i in sides_list]}")
+        if not all(isinstance(side, (int, float)) for side in sides_list):
+            raise TypeError(f"Rectangle width and height must be numbers, not"
+                            f"{[type(side).__name__ for side in sides_list]}")
 
         self.__width = width
         self.__height = height
@@ -24,7 +25,7 @@ class Rectangle(Shape):
         return 2 * (self.__width + self.__height)
 
     def __repr__(self):
-        return f"Rectangle with sides: width length = {self.__width}, height length = {self.__height}"
+        return f"Rectangle with sides: width = {self.__width}, height = {self.__height}"
 
     def __hash__(self):
         return hash((self.__width, self.__height))

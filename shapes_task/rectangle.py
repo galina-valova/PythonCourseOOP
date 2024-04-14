@@ -6,8 +6,8 @@ class Rectangle(Shape):
         sides_list = [width, height]
 
         if not all(isinstance(side, (int, float)) for side in sides_list):
-            raise TypeError(f"Rectangle width and height must be numbers, not"
-                            f"{[type(side).__name__ for side in sides_list]}")
+            raise TypeError("Rectangle width and height must be numbers, not",
+                            [type(side).__name__ for side in sides_list])
 
         self.__width = width
         self.__height = height

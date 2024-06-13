@@ -6,17 +6,28 @@ class SinglyLinkedList:
         self.__head = None
         self.__count = 0
 
-    @property
-    def size(self):
+    def __len__(self):
         return self.__count
 
-    def get_first_item_value(self):
+    def __is_in_range(self, index):
+        if index < 0 or index >= len(self):
+            raise IndexError(f"List index out of range. Index is {index}, index must be in (0, {len(self)})")
+
+    def __get_item_by_index(self, index):
+        current_item = self.__head
+
+        for i in range(1, index):
+            current_item = current_item.next_item
+
+        return current_item
+
+    def get_first(self):
         if self.__head is None:
             raise ValueError("List is empty")
 
         return self.__head.data
 
-    def push_front(self, data):
+    def insert_first(self, data):
         self.__head = ListItem(data, self.__head)
         self.__count += 1
 
@@ -24,25 +35,23 @@ class SinglyLinkedList:
         if not isinstance(index, int):
             raise TypeError(f"Index must be int, not {type(index).__name__}")
 
-        if self.__head is None:
-            raise ValueError(f"List is empty, no way insert value by index {index}")
+        if index < 0:
+            raise ValueError("Index must be positive number, not", index)
 
-        if index >= self.size or index < 0:
-            raise IndexError(f"List index out of range. Index is {index}, index must be in [0, {self.size})")
+        if self.__head is None or index == 0:
+            self.insert_first(data)
 
-        if index == 0:
-            self.push_front(data)
+        elif index >= len(self):
+            current_item = self.__get_item_by_index(len(self))
+            current_item.next_item = ListItem(data)
+            self.__count += 1
+
         else:
-            current_item = self.__head
-
-            while current_item is not None and index > 1:
-                current_item = current_item.next_item
-                index -= 1
-
+            current_item = self.__get_item_by_index(index)
             current_item.next_item = ListItem(data, current_item.next_item)
             self.__count += 1
 
-    def delete_item_by_value(self, value):
+    def delete_by_data(self, value):
         if self.__head is None:
             return False
 
@@ -52,6 +61,7 @@ class SinglyLinkedList:
             return True
 
         current_item = self.__head
+
         while current_item is not None:
             if current_item.next_item is not None and current_item.next_item.data == value:
                 current_item.next_item = current_item.next_item.next_item
@@ -59,40 +69,36 @@ class SinglyLinkedList:
                 return True
 
             current_item = current_item.next_item
+
         return False
 
-    def pop_front(self):
+    def delete_first(self):
         if self.__head is None:
-            return None
+            raise ValueError("List is empty. No data to delete")
 
-        head_data = self.__head.data
+        deleted_data = self.__head.data
         self.__head = self.__head.next_item
         self.__count -= 1
-        return head_data
+        return deleted_data
 
     def delete(self, index):
         if not isinstance(index, int):
             raise TypeError(f"Index must be int, not {type(index).__name__}")
 
         if self.__head is None:
-            raise ValueError(f"List is empty, no way delete item by index {index}")
+            raise IndexError(f"List is empty, no way delete item by index {index}")
 
-        if index >= self.size or index < 0:
-            raise IndexError(f"List index out of range. Index is {index}, index must be in [0, {self.size})")
+        self.__is_in_range(index)
 
         if index == 0:
-            return self.pop_front()
-        else:
-            current_item = self.__head
+            return self.delete_first()
 
-            while current_item is not None and index > 1:
-                current_item = current_item.next_item
-                index -= 1
+        current_item = self.__get_item_by_index(index)
 
-            deleted_item_data = current_item.next_item.data
-            current_item.next_item = current_item.next_item.next_item
-            self.__count -= 1
-            return deleted_item_data
+        deleted_data = current_item.next_item.data
+        current_item.next_item = current_item.next_item.next_item
+        self.__count -= 1
+        return deleted_data
 
     def reverse(self):
         previous_item = None
@@ -133,50 +139,41 @@ class SinglyLinkedList:
             raise TypeError(f"Index must be int, not {type(index).__name__}")
 
         if self.__head is None:
-            raise ValueError("List is empty")
+            raise IndexError("List is empty")
 
-        if index >= self.size or index < 0:
-            raise IndexError(f"List index out of range. Index is {index}, index must be in [0, {self.size})")
+        self.__is_in_range(index)
 
         if index == 0:
             return self.__head.data
-        else:
-            current_item = self.__head
 
-            while current_item is not None and index > 1:
-                current_item = current_item.next_item
-                index -= 1
+        current_item = self.__get_item_by_index(index)
 
-            returned_item_data = current_item.next_item.data
-            return returned_item_data
+        returned_data = current_item.next_item.data
+
+        return returned_data
 
     def __setitem__(self, index, value):
         if not isinstance(index, int):
             raise TypeError(f"Index must be int, not {type(index).__name__}")
 
         if self.__head is None:
-            raise ValueError("List is empty")
+            raise IndexError("List is empty")
 
-        if index >= self.size or index < 0:
-            raise IndexError(f"List index out of range. Index is {index}, index must be in [0, {self.size})")
+        self.__is_in_range(index)
 
         if index == 0:
             self.__head.data = value
         else:
-            current_item = self.__head
-
-            while current_item is not None and index > 1:
-                current_item = current_item.next_item
-                index -= 1
+            current_item = self.__get_item_by_index(index)
 
             current_item.next_item.data = value
 
     def __repr__(self):
-        result = []
+        items_list = []
         current_item = self.__head
 
         while current_item is not None:
-            result.append(repr(current_item.data))
+            items_list.append(repr(current_item.data))
             current_item = current_item.next_item
 
-        return f"{{{', '.join(result)}}}"
+        return f"{{{', '.join(items_list)}}}"

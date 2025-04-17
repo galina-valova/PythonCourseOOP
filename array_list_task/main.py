@@ -1,0 +1,20 @@
+from array_list_task1.array_list import ArrayList
+
+a = ArrayList(4)
+a.append(1)
+a.append(2)
+a.append(5)
+a.append(6)
+a.append(10)
+a.extend([1, 2, 6, 5])
+
+print(a)
+print(f"list after remove {a.remove(6)} with length = {len(a)}")
+print("count of 5 in a is", a.count(5))
+print("index of 10 is", a.index(10, 2, 6))
+a.reverse()
+print("reverse list:", a)
+a.insert(10, 190)
+print(f"insert 190 to 10 position:{a}, length a = {len(a)}")
+a.pop(-6)
+print(f"delete value by index:{a}, length a = {len(a)}")
